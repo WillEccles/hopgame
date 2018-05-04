@@ -20,7 +20,7 @@ class hopgame::player : public hopgame::gameobject {
 			player_shape.setFillColor(pc);
 		};
 		float jumpFormula(int ticks) {
-			return GROUND_Y_POS-PLAYER_HEIGHT-(-1.0/8.0 * pow((float)ticks-20.0f, 2.0f) + MAX_JUMP_HEIGHT);
+			return GROUND_Y_POS-PLAYER_HEIGHT-(-1.0/5.7 * pow((float)ticks-20.0f, 2.0f) + MAX_JUMP_HEIGHT);
 		};
 		void tick() {
 			if (isPlaying) {
