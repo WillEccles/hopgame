@@ -25,6 +25,12 @@ class hopgame::player : public hopgame::gameobject {
 		void tick() {
 			if (isPlaying) {
 				if (KEY_JUMP && !jumpStarted) {
+					// make sure the player is not ducking
+					setSize(PLAYER_WIDTH, PLAYER_HEIGHT);
+					setPos(PLAYER_X_POS, GROUND_Y_POS-PLAYER_HEIGHT);
+					player_shape.setSize(getSize());
+
+					// signal that we should do jump calculations
 					jumpStarted = true;
 				}
 
@@ -36,6 +42,17 @@ class hopgame::player : public hopgame::gameobject {
 					if (getPos().y >= GROUND_Y_POS - PLAYER_HEIGHT) {
 						jumpStarted = false;
 						ticksSinceJumpStart = 0;
+					}
+				} else {
+					// if there is no jump happening, we can deal with a duck
+					if (KEY_DUCK) {
+						setSize(PLAYER_WIDTH_DUCK, PLAYER_HEIGHT_DUCK);
+						setPos(PLAYER_X_POS, GROUND_Y_POS-PLAYER_HEIGHT_DUCK);
+						player_shape.setSize(getSize());
+					} else {
+						setSize(PLAYER_WIDTH, PLAYER_HEIGHT);
+						setPos(PLAYER_X_POS, GROUND_Y_POS-PLAYER_HEIGHT);
+						player_shape.setSize(getSize());
 					}
 				}
 			} else {
