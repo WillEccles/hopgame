@@ -9,6 +9,7 @@ void draw(sf::RenderWindow& window) {
 	window.clear(sf::Color::White);
 
 	window.draw(ground);
+	window.draw(scoreText);
 	
 	_player->draw(window);
 
@@ -40,6 +41,8 @@ bool tick(sf::Time elapsed) {
 		if ((*it)->garbage()) {
 			delete (*it);
 			it = obstacles.erase(it);
+			score++;
+			scoreText.setString(std::to_string(score));
 		} else {
 			(*it)->tick();
 			if ((*it)->collidesWith(_player)) {
@@ -59,6 +62,15 @@ int main() {
 	_player = new hopgame::player(sf::Color::Black);
 	ground.setFillColor(sf::Color::Black);
 	ground.setPosition(0.0f, GROUND_Y_POS);
+
+	if (!scoreFont.loadFromFile("OperatorMono-Medium.otf")) {
+		return 69;
+	}
+
+	scoreText.setPosition(10.0f, 1.0f);
+	scoreText.setFont(scoreFont);
+	scoreText.setFillColor(sf::Color::Black);
+	scoreText.setString(std::to_string(score));
 
 	sf::Clock clock;
 	while (window.isOpen())

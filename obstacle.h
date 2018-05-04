@@ -21,7 +21,7 @@ class hopgame::obstacle : public hopgame::gameobject {
 			obShape.setFillColor(sf::Color::Red);
 		};
 		void tick() {
-			setPos(getPos().x - obstacleSpeed, getPos().y);
+			setPos(getPos().x - getVel().x, getPos().y);
 
 			if (getPos().x + OBSTACLE_WIDTH <= 0.0)
 				setGarbage(true);
