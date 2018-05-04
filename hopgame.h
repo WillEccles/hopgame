@@ -29,14 +29,20 @@ namespace hopgame {
 	class obstacle;
 };
 
+enum GameState {
+	PLAYING = 0,
+	PAUSED = 1,
+	OVER = 2
+};
+
 using namespace hopgame;
 
 static float obstacleSpeed = SPEED;
 static int score = 0; // will be counted by number of enemies that leave the screen
-static int ticksTillObstacle = 60;
+static int ticksTilObstacle = 60;
 
 static std::vector<obstacle*> obstacles;
-static bool isPlaying = true;
+static GameState gamestate = PLAYING;
 
 static gameobject* _player;
 

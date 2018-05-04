@@ -7,6 +7,8 @@
 #define WIDTH 1280.0f
 #define HEIGHT 720.0f
 
+#define FONT "FiraCode-Regular.ttf"
+
 #define GRAVITY 0.6f
 #define ACCELERATION 1.0005f
 #define INITIAL_JUMP_VELOCITY -6.0f

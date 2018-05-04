@@ -8,13 +8,17 @@ const static float TICK_TIME = 0.0166666667f;
 void draw(sf::RenderWindow& window) {
 	window.clear(sf::Color::White);
 
-	window.draw(ground);
-	window.draw(scoreText);
-	
-	_player->draw(window);
+	if (gamestate == PLAYING) {
+		window.draw(ground);
+		window.draw(scoreText);
+		
+		_player->draw(window);
 
-	for (auto& ob : obstacles)
-		ob->draw(window);
+		for (auto& ob : obstacles)
+			ob->draw(window);
+	} else if (gamestate == PAUSED) {
+	} else if (gamestate == OVER) {
+	}
 
 	window.display();
 }
@@ -22,12 +26,24 @@ void draw(sf::RenderWindow& window) {
 bool tick(sf::Time elapsed) {
 	if (elapsed.asSeconds() < TICK_TIME) return false;
 
-	if (ticksTillObstacle == 0) {
+	if (KEY_RESTART) {
+		// restart the game
+		score = 0;
+		obstacleSpeed = SPEED;
+		ticksTilObstacle = 60;
+		obstacles.clear();
+		delete _player;
+		_player = new hopgame::player(sf::Color::Black);
+		scoreText.setString("0");
+		gamestate = PLAYING;
+	}
+
+	if (ticksTilObstacle == 0) {
 		hopgame::obstacle* ob = new hopgame::obstacle(smallObstacleSize, sf::Color::Black);
 		addObstacle(ob);
-		ticksTillObstacle = 60;
+		ticksTilObstacle = 60;
 	} else {
-		ticksTillObstacle--;
+		ticksTilObstacle--;
 	}
 
 	if (obstacleSpeed < MAX_SPEED) {
@@ -46,9 +62,7 @@ bool tick(sf::Time elapsed) {
 		} else {
 			(*it)->tick();
 			if ((*it)->collidesWith(_player)) {
-				// this means the player has died
-				// for now just make it do a debug thing
-				(*it)->setRed();
+				gamestate = OVER;
 			}
 			it++;
 		}
@@ -63,7 +77,7 @@ int main() {
 	ground.setFillColor(sf::Color::Black);
 	ground.setPosition(0.0f, GROUND_Y_POS);
 
-	if (!scoreFont.loadFromFile("OperatorMono-Medium.otf")) {
+	if (!scoreFont.loadFromFile(FONT)) {
 		return 69;
 	}
 
