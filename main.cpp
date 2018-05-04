@@ -9,9 +9,11 @@ void draw(sf::RenderWindow& window) {
 	window.clear(sf::Color::White);
 
 	window.draw(ground);
+	
+	_player->draw(window);
 
-	for (auto& obj : game_objects)
-		obj->draw(window);
+	for (auto& ob : obstacles)
+		ob->draw(window);
 
 	window.display();
 }
@@ -20,8 +22,8 @@ bool tick(sf::Time elapsed) {
 	if (elapsed.asSeconds() < TICK_TIME) return false;
 
 	if (ticksTillObstacle == 0) {
-		hopgame::gameobject* ob = new hopgame::obstacle(smallObstacleSize, sf::Color::Black);
-		addGameObject(ob);
+		hopgame::obstacle* ob = new hopgame::obstacle(smallObstacleSize, sf::Color::Black);
+		addObstacle(ob);
 		ticksTillObstacle = 60;
 	} else {
 		ticksTillObstacle--;
@@ -31,12 +33,20 @@ bool tick(sf::Time elapsed) {
 		obstacleSpeed *= ACCELERATION;
 	}
 
-	for (auto it = game_objects.begin(); it != game_objects.end(); ) {
+	// always tick the player before doing the other game objects
+	_player->tick();
+
+	for (auto it = obstacles.begin(); it != obstacles.end(); ) {
 		if ((*it)->garbage()) {
 			delete (*it);
-			it = game_objects.erase(it);
+			it = obstacles.erase(it);
 		} else {
 			(*it)->tick();
+			if ((*it)->collidesWith(_player)) {
+				// this means the player has died
+				// for now just make it do a debug thing
+				(*it)->setRed();
+			}
 			it++;
 		}
 	}
@@ -47,7 +57,6 @@ bool tick(sf::Time elapsed) {
 int main() {
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Hop Game");
 	_player = new hopgame::player(sf::Color::Black);
-	addGameObject(_player);
 	ground.setFillColor(sf::Color::Black);
 	ground.setPosition(0.0f, GROUND_Y_POS);
 

@@ -16,9 +16,15 @@ class hopgame::obstacle : public hopgame::gameobject {
 			obShape.setOutlineThickness(1.0f);
 			obShape.setFillColor(sf::Color::White);
 			setPos(WIDTH, GROUND_Y_POS - size.y);
-		}
+		};
+		void setRed() {
+			obShape.setFillColor(sf::Color::Red);
+		};
 		void tick() {
 			setPos(getPos().x - obstacleSpeed, getPos().y);
+
+			if (getPos().x + OBSTACLE_WIDTH <= 0.0)
+				setGarbage(true);
 		};
 		void draw(sf::RenderWindow& window) {
 			obShape.setPosition(getPos());

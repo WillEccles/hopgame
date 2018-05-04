@@ -33,13 +33,13 @@ static float obstacleSpeed = SPEED;
 static int score = 0; // TODO
 static int ticksTillObstacle = 60;
 
-static std::vector<gameobject*> game_objects;
+static std::vector<obstacle*> obstacles;
 static bool isPlaying = true;
 
 static gameobject* _player;
 
-static void addGameObject(gameobject* obj) {
-	game_objects.push_back(obj);
+static void addObstacle(obstacle* ob) {
+	obstacles.push_back(ob);
 }
 
 template<class T, class U, class V>

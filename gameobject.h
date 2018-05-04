@@ -4,7 +4,7 @@
 #include "hopgame.h"
 
 class hopgame::gameobject {
-	protected:
+	private:
 		sf::Vector2f pos;
 		sf::Vector2f vel;
 		sf::Vector2f size;
@@ -16,6 +16,11 @@ class hopgame::gameobject {
 		virtual void draw(sf::RenderWindow&) = 0;
 		virtual void tick() = 0;
 		virtual bool garbage() { return isGarbage; };
+		bool collidesWith(gameobject* other) {
+			sf::FloatRect thisRect(pos.x, pos.y, size.x, size.y);
+			sf::FloatRect otherRect(other->getPos().x, other->getPos().y, other->getSize().x, other->getSize().y);
+			return thisRect.intersects(otherRect);
+		};
 		void setGarbage(bool g) { isGarbage = g; };
 		void setPos(sf::Vector2f p) { pos = p; };
 		void setPos(float x, float y) { pos.x = x; pos.y = y; };
