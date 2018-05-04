@@ -22,6 +22,7 @@ sf::Font scoreFont;
 sf::Text scoreText;
 
 const sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+const sf::Vector2f flyingObstacleSize(FLYING_OBSTACLE_WIDTH, FLYING_OBSTACLE_HEIGHT);
 
 namespace hopgame {
 	class gameobject;
@@ -39,7 +40,7 @@ using namespace hopgame;
 
 static float obstacleSpeed = SPEED;
 static int score = 0; // will be counted by number of enemies that leave the screen
-static int ticksTilObstacle = 60;
+static unsigned long long ticks = 0;
 
 static std::vector<obstacle*> obstacles;
 static GameState gamestate = PLAYING;

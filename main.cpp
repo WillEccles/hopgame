@@ -30,7 +30,7 @@ bool tick(sf::Time elapsed) {
 		// restart the game
 		score = 0;
 		obstacleSpeed = SPEED;
-		ticksTilObstacle = 60;
+		ticks = 0;
 		obstacles.clear();
 		delete _player;
 		_player = new hopgame::player(sf::Color::Black);
@@ -38,13 +38,17 @@ bool tick(sf::Time elapsed) {
 		gamestate = PLAYING;
 	}
 
-	if (ticksTilObstacle == 0) {
+	if (ticks == 60) {
 		hopgame::obstacle* ob = new hopgame::obstacle(smallObstacleSize, sf::Color::Black);
 		addObstacle(ob);
-		ticksTilObstacle = 60;
-	} else {
-		ticksTilObstacle--;
+	} else if (ticks == 120) {
+		// add a flying obstacle
+		hopgame::obstacle* ob = new hopgame::obstacle(flyingObstacleSize, sf::Color::Black, true);
+		addObstacle(ob);
+		ticks = 0;
 	}
+
+	ticks++;
 
 	if (obstacleSpeed < MAX_SPEED) {
 		obstacleSpeed *= ACCELERATION;
