@@ -3,12 +3,12 @@
 
 #include "hopgame.h"
 #include "gameobject.h"
+#include <cmath>
 
 class hopgame::player : public hopgame::gameobject {
 	private:
 		sf::RectangleShape player_shape;
 		bool jumpStarted = false;
-		bool hitMaxHeight = false;
 		int ticksSinceJumpStart = 0;
 	public:
 		player(sf::Color pc) {
@@ -19,6 +19,9 @@ class hopgame::player : public hopgame::gameobject {
 			player_shape = sf::RectangleShape(getSize());
 			player_shape.setFillColor(pc);
 		};
+		float jumpFormula(int ticks) {
+			return GROUND_Y_POS-PLAYER_HEIGHT-(-1.0/8.0 * pow((float)ticks-20.0f, 2.0f) + MAX_JUMP_HEIGHT);
+		};
 		void tick() {
 			if (isPlaying) {
 				if (KEY_JUMP && !jumpStarted) {
@@ -27,31 +30,12 @@ class hopgame::player : public hopgame::gameobject {
 
 				// do a jump
 				if (jumpStarted) {
-					float coefficient = 1.0f - 0.03f * (float)ticksSinceJumpStart;
-					if (coefficient <= 0.1f)
-						coefficient = 0.1f;
-
 					ticksSinceJumpStart++;
-					if (!hitMaxHeight) {
-						// make the little guy go higher
-						setPos(PLAYER_X_POS, getPos().y + INITIAL_JUMP_VELOCITY * coefficient);
-
-						// after doing any jumping stuff, see if he has hit max height
-						if (getPos().y + PLAYER_HEIGHT <= GROUND_Y_POS - MAX_JUMP_HEIGHT) {
-							hitMaxHeight = true;
-							ticksSinceJumpStart = 0;
-						}
-					} else {
-						// it's time to make the little man go down
-						setPos(PLAYER_X_POS, getPos().y - INITIAL_JUMP_VELOCITY * coefficient);
-
-						// see if he has hit the ground now
-						if (getPos().y + PLAYER_HEIGHT >= GROUND_Y_POS) {
-							setPos(PLAYER_X_POS, GROUND_Y_POS - PLAYER_HEIGHT);
-							jumpStarted = false;
-							hitMaxHeight = false;
-							ticksSinceJumpStart = 0;
-						}
+					setPos(PLAYER_X_POS, jumpFormula(ticksSinceJumpStart));
+					
+					if (getPos().y >= GROUND_Y_POS - PLAYER_HEIGHT) {
+						jumpStarted = false;
+						ticksSinceJumpStart = 0;
 					}
 				}
 			} else {

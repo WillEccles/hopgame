@@ -19,9 +19,7 @@ sf::RectangleShape playerCollisionBox(sf::Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT))
 sf::RectangleShape playerDuckCollisionBox(sf::Vector2f(PLAYER_WIDTH_DUCK, PLAYER_HEIGHT_DUCK));
 sf::RectangleShape ground(sf::Vector2f(WIDTH, 2.0f));
 
-sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
-
-static int score = 0; // TODO
+const sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 
 namespace hopgame {
 	class gameobject;
@@ -32,7 +30,7 @@ namespace hopgame {
 using namespace hopgame;
 
 static float obstacleSpeed = SPEED;
-
+static int score = 0; // TODO
 static int ticksTillObstacle = 60;
 
 static std::vector<gameobject*> game_objects;

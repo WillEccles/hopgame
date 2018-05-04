@@ -28,7 +28,7 @@ bool tick(sf::Time elapsed) {
 	}
 
 	if (obstacleSpeed < MAX_SPEED) {
-		obstacleSpeed += obstacleSpeed * ACCELERATION;
+		obstacleSpeed *= ACCELERATION;
 	}
 
 	for (auto it = game_objects.begin(); it != game_objects.end(); ) {
