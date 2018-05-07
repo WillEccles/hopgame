@@ -18,9 +18,18 @@ void draw(sf::RenderWindow& window) {
 			ob->draw(window);
 	} else if (gamestate == PAUSED) {
 	} else if (gamestate == OVER) {
+		window.draw(gameOverText);
+		window.draw(gameOverSubtitle);
 	}
 
 	window.display();
+}
+
+void gameOver() {
+	gamestate = OVER;
+	gameOverSubtitle.setString("Score: " + std::to_string(score));
+	centerText(gameOverSubtitle);
+	centerTextVertical(gameOverSubtitle, gameOverText.getLocalBounds().height+7.0f);
 }
 
 bool tick(sf::Time elapsed) {
@@ -34,7 +43,7 @@ bool tick(sf::Time elapsed) {
 		obstacles.clear();
 		delete _player;
 		_player = new hopgame::player(sf::Color::Black);
-		scoreText.setString("0");
+		scoreText.setString("Score: 0");
 		gamestate = PLAYING;
 	}
 
@@ -62,11 +71,11 @@ bool tick(sf::Time elapsed) {
 			delete (*it);
 			it = obstacles.erase(it);
 			score++;
-			scoreText.setString(std::to_string(score));
+			scoreText.setString("Score: " + std::to_string(score));
 		} else {
 			(*it)->tick();
 			if ((*it)->collidesWith(_player)) {
-				gamestate = OVER;
+				gameOver();
 			}
 			it++;
 		}
@@ -88,7 +97,17 @@ int main() {
 	scoreText.setPosition(10.0f, 1.0f);
 	scoreText.setFont(scoreFont);
 	scoreText.setFillColor(sf::Color::Black);
-	scoreText.setString(std::to_string(score));
+	scoreText.setString("Score: " + std::to_string(score));
+
+	gameOverText.setFont(scoreFont);
+	gameOverText.setCharacterSize(50);
+	gameOverText.setFillColor(sf::Color::Red);
+	gameOverText.setString("Game Over!");
+	centerText(gameOverText);
+	
+	gameOverSubtitle.setFont(scoreFont);
+	gameOverSubtitle.setCharacterSize(30);
+	gameOverSubtitle.setFillColor(sf::Color::Black);
 
 	sf::Clock clock;
 	while (window.isOpen())

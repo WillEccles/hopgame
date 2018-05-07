@@ -20,6 +20,8 @@ sf::RectangleShape playerDuckCollisionBox(sf::Vector2f(PLAYER_WIDTH_DUCK, PLAYER
 sf::RectangleShape ground(sf::Vector2f(WIDTH, 2.0f));
 sf::Font scoreFont;
 sf::Text scoreText;
+sf::Text gameOverText;
+sf::Text gameOverSubtitle;
 
 const sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 const sf::Vector2f flyingObstacleSize(FLYING_OBSTACLE_WIDTH, FLYING_OBSTACLE_HEIGHT);
@@ -49,7 +51,7 @@ static gameobject* _player;
 
 static void addObstacle(obstacle* ob) {
 	obstacles.push_back(ob);
-}
+};
 
 template<class T, class U, class V>
 T clamp(T num, U min, V max) {
@@ -59,6 +61,21 @@ T clamp(T num, U min, V max) {
 		return (T)max;
 	else
 		return num;
-}
+};
+
+void centerTextHorizontal(sf::Text& text, float offset = 0.0f) {
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setPosition(((WIDTH/2.0f) + offset) - (bounds.width/2.0f), text.getPosition().y);
+};
+
+void centerTextVertical(sf::Text& text, float offset = 0.0f) {
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setPosition(text.getPosition().x, ((HEIGHT/2.0f) + offset) - (bounds.height/2.0f));
+};
+
+void centerText(sf::Text& text) {
+	centerTextHorizontal(text);
+	centerTextVertical(text);
+};
 
 #endif
