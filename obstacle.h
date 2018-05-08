@@ -7,6 +7,7 @@
 class hopgame::obstacle : public hopgame::gameobject {
 	private:
 		sf::RectangleShape obShape;
+		bool pastPlayer = false;
 	public:
 		obstacle(sf::Vector2f size, sf::Color borderColor, bool flying = false) {
 			setSize(size.x, size.y);
@@ -24,7 +25,14 @@ class hopgame::obstacle : public hopgame::gameobject {
 
 			setPos(getPos().x - getVel().x, getPos().y);
 
-			if (getPos().x + OBSTACLE_WIDTH <= 0.0)
+			// if the object is past the player, increment the score (rather than the old way of incrementing whenever an object went off the screen)
+			if (!pastPlayer && getPos().x + getSize().x < PLAYER_X_POS) {
+				pastPlayer = true;
+				score++;
+				scoreText.setString("Score: " + std::to_string(score));
+			}
+
+			if (getPos().x + getSize().x <= 0.0)
 				setGarbage(true);
 		};
 		void draw(sf::RenderWindow& window) {

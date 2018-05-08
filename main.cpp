@@ -17,6 +17,9 @@ void draw(sf::RenderWindow& window) {
 		for (auto& ob : obstacles)
 			ob->draw(window);
 	} else if (gamestate == PAUSED) {
+		window.draw(pauseText);
+		window.draw(pauseBar);
+		window.draw(pauseBar2);
 	} else if (gamestate == OVER) {
 		window.draw(gameOverText);
 		window.draw(gameOverSubtitle);
@@ -47,6 +50,20 @@ bool tick(sf::Time elapsed) {
 		gamestate = PLAYING;
 	}
 
+	if (KEY_PAUSE) {
+		if (!pausekeydown) {
+			pausekeydown = true;
+			if (gamestate == PLAYING)
+				gamestate = PAUSED;
+			else if (gamestate == PAUSED)
+				gamestate = PLAYING;
+		}
+	} else {
+		pausekeydown = false;
+	}
+
+	if (gamestate == PAUSED) return true; // don't do any game object updating
+
 	if (ticks == 60) {
 		hopgame::obstacle* ob = new hopgame::obstacle(smallObstacleSize, sf::Color::Black);
 		addObstacle(ob);
@@ -70,8 +87,6 @@ bool tick(sf::Time elapsed) {
 		if ((*it)->garbage()) {
 			delete (*it);
 			it = obstacles.erase(it);
-			score++;
-			scoreText.setString("Score: " + std::to_string(score));
 		} else {
 			(*it)->tick();
 			if ((*it)->collidesWith(_player)) {
@@ -108,6 +123,18 @@ int main() {
 	gameOverSubtitle.setFont(scoreFont);
 	gameOverSubtitle.setCharacterSize(30);
 	gameOverSubtitle.setFillColor(sf::Color::Black);
+
+	pauseText.setFont(scoreFont);
+	pauseText.setCharacterSize(50);
+	pauseText.setString("Paused");
+	pauseText.setFillColor(sf::Color::Black);
+	centerTextHorizontal(pauseText);
+	centerTextVertical(pauseText, -120.0f);
+
+	pauseBar.setFillColor(sf::Color::Black);
+	pauseBar2.setFillColor(sf::Color::Black);
+	pauseBar.setPosition(sf::Vector2f(WIDTH/2.0f-22.0f-45.0f, HEIGHT/2.0f-75.0f));
+	pauseBar2.setPosition(sf::Vector2f(WIDTH/2.0f+22.0f, HEIGHT/2.0f-75.0f));
 
 	sf::Clock clock;
 	while (window.isOpen())

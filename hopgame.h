@@ -14,6 +14,7 @@
 #define KEY_JUMP (ISPRESSED(sf::Keyboard::Space) || ISPRESSED(sf::Keyboard::Up))
 #define KEY_DUCK ISPRESSED(sf::Keyboard::Down)
 #define KEY_RESTART ISPRESSED(sf::Keyboard::Return)
+#define KEY_PAUSE ISPRESSED(sf::Keyboard::Escape)
 
 sf::RectangleShape playerCollisionBox(sf::Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
 sf::RectangleShape playerDuckCollisionBox(sf::Vector2f(PLAYER_WIDTH_DUCK, PLAYER_HEIGHT_DUCK));
@@ -22,9 +23,15 @@ sf::Font scoreFont;
 sf::Text scoreText;
 sf::Text gameOverText;
 sf::Text gameOverSubtitle;
+sf::Text pauseText;
+
+sf::RectangleShape pauseBar(sf::Vector2f(45.0f, 150.0f));
+sf::RectangleShape pauseBar2(sf::Vector2f(45.0f, 150.0f));
 
 const sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 const sf::Vector2f flyingObstacleSize(FLYING_OBSTACLE_WIDTH, FLYING_OBSTACLE_HEIGHT);
+
+bool pausekeydown = false; // used to make it so the pause key doens't make the game freak out
 
 namespace hopgame {
 	class gameobject;
@@ -64,12 +71,12 @@ T clamp(T num, U min, V max) {
 };
 
 void centerTextHorizontal(sf::Text& text, float offset = 0.0f) {
-	sf::FloatRect bounds = text.getLocalBounds();
+	sf::FloatRect bounds = text.getGlobalBounds();
 	text.setPosition(((WIDTH/2.0f) + offset) - (bounds.width/2.0f), text.getPosition().y);
 };
 
 void centerTextVertical(sf::Text& text, float offset = 0.0f) {
-	sf::FloatRect bounds = text.getLocalBounds();
+	sf::FloatRect bounds = text.getGlobalBounds();
 	text.setPosition(text.getPosition().x, ((HEIGHT/2.0f) + offset) - (bounds.height/2.0f));
 };
 
