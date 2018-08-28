@@ -105,9 +105,10 @@ int main() {
 	ground.setFillColor(sf::Color::Black);
 	ground.setPosition(0.0f, GROUND_Y_POS);
 
-	if (!scoreFont.loadFromFile(FONT)) {
+	if (!scoreFont.loadFromFile(FONT))
 		return 69;
-	}
+	if (!spritesheet.loadFromFile(SPRITES))
+		return 420;
 
 	scoreText.setPosition(10.0f, 1.0f);
 	scoreText.setFont(scoreFont);

@@ -28,6 +28,8 @@ sf::Text pauseText;
 sf::RectangleShape pauseBar(sf::Vector2f(45.0f, 150.0f));
 sf::RectangleShape pauseBar2(sf::Vector2f(45.0f, 150.0f));
 
+sf::Texture spritesheet;
+
 const sf::Vector2f smallObstacleSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 const sf::Vector2f flyingObstacleSize(FLYING_OBSTACLE_WIDTH, FLYING_OBSTACLE_HEIGHT);
 

@@ -8,6 +8,7 @@
 #define HEIGHT 720.0f
 
 #define FONT "FiraCode-Regular.ttf"
+#define SPRITES "sprites.png"
 
 #define GRAVITY 0.6f
 #define ACCELERATION 1.0005f
