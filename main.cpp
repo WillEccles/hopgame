@@ -99,8 +99,8 @@ bool tick(sf::Time elapsed) {
 	return true;
 }
 
-int main() {
-	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Hop Game");
+int main(int argc, char** argv) {
+	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), TITLE);
 	_player = new hopgame::player(sf::Color::Black);
 	ground.setFillColor(sf::Color::Black);
 	ground.setPosition(0.0f, GROUND_Y_POS);

@@ -14,7 +14,7 @@
 #define KEY_JUMP (ISPRESSED(sf::Keyboard::Space) || ISPRESSED(sf::Keyboard::Up))
 #define KEY_DUCK ISPRESSED(sf::Keyboard::Down)
 #define KEY_RESTART ISPRESSED(sf::Keyboard::Return)
-#define KEY_PAUSE ISPRESSED(sf::Keyboard::Escape)
+#define KEY_PAUSE (ISPRESSED(sf::Keyboard::Escape) || ISPRESSED(sf::Keyboard::P))
 
 sf::RectangleShape playerCollisionBox(sf::Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
 sf::RectangleShape playerDuckCollisionBox(sf::Vector2f(PLAYER_WIDTH_DUCK, PLAYER_HEIGHT_DUCK));

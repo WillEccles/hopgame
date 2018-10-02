@@ -1,2 +1,11 @@
+FILES=main.cpp
+OUTPUT=out
+INCLUDES=-I/usr/local/include/SFML
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system
+STD=-std=c++14
+
+debug:
+	g++ $(FILES) -o $(OUTPUT) $(INCLUDES) $(LIBS) $(STD) -DDEBUG
+
 all:
-	g++ main.cpp -o out -I/usr/local/include/SFML -lsfml-graphics -lsfml-window -lsfml-system -std=c++14
+	g++ $(FILES) -o $(OUTPUT) $(INCLUDES) $(LIBS) $(STD)

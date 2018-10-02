@@ -6,6 +6,11 @@
 
 #define WIDTH 1280.0f
 #define HEIGHT 720.0f
+#ifdef DEBUG
+#define TITLE "Hop Game [DEBUG]"
+#else
+#define TITLE "Hop Game"
+#endif
 
 #define FONT "FiraCode-Regular.ttf"
 #define SPRITES "sprites.png"
